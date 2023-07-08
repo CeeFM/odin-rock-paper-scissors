@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet"> 
+    <title>Rock Paper Scissors MFs!!!</title>
+</head>
+<body id="bod">
+    <h3>Choose Your Fate and See If You Can Beat the Rock, Paper, Scissors Master CPU</h3>
+    <div id="container">
+        <div id="btn-container">
+            <button id="rock">Rock</button>
+            <button id="paper">Paper</button>
+            <button id="scissors">Scissors</button>
+        </div>
+        <button id="reset">Reset</button>
+    </div>
+    <script>
+        const gameOptions = ["rock", "paper", "scissors"];
+        let userScore = 0;
+        let computerScore = 0;
+
+        const btnContainer = document.querySelector('#btn-container')
+        const div = document.createElement('div');
+        div.classList.add('div-text');
+        const container = document.querySelector('#container');
+        container.appendChild(div);
+    
+        function getComputerChoice() {
+            let randomNumber = Math.floor(Math.random() * gameOptions.length);
+            return gameOptions[randomNumber];    
+        };
+
+        function resetGame() {
+            userScore = 0;
+            computerScore = 0;
+            div.textContent = "";
+            reset.textContent = "Reset";
+            reset.style.fontWeight = "normal";
+            btnContainer.style.display = 'inherit';
+        }
+
+            function playGame(playerSelection, computerSelection) {
+                playerSelection = playerSelection.toLowerCase();
+                capitalPlayerSelection = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1);
+                capitalComputerSelection = computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1);
+                
+               if (userScore < 5 && computerScore < 5) {
+                    if ((playerSelection === "rock" && computerSelection == "scissors") || (playerSelection === "paper" && computerSelection === "rock") || (playerSelection === "scissors" && computerSelection === "paper")) {
+                        userScore++; 
+                        div.textContent = `You picked ${capitalPlayerSelection}, they picked ${capitalComputerSelection}. Man, they really fucked up. You won! You got a point! Your score is ${userScore} and the computer's score is ${computerScore}`
+                    } else if (playerSelection === computerSelection) {
+                        div.textContent = `Jesus it's a tie you both picked the same damn thing! Try again and make it different this time!!`
+                    } else {
+                        computerScore++;
+                        div.textContent = `You Lose! ${capitalComputerSelection} beats ${capitalPlayerSelection}! You really screwed that one up buddy. Your score is still ${userScore}, while the CPU has racked up another point to get their total to ${computerScore}`
+                    };
+                };
+
+                if (userScore === 5) {
+                    div.textContent = `You win with a total of 5 points!`
+                    btnContainer.style.display = 'none';
+                    reset.style.fontWeight = "bold";
+                    reset.textContent = "Play Again";
+                };
+
+                if (computerScore === 5) {
+                    div.textContent = `That damn computer won with a whole 5 points, you couldn't even sniff his undies this time!! Better luck next time buddy!!`
+                    reset.textContent = "Play Again";
+                    reset.style.fontWeight = "bold";
+                    btnContainer.style.display = 'none';
+                };
+            };
+
+        let rock = document.querySelector('#rock');
+        rock.addEventListener('click', function() { playGame('ROCK', getComputerChoice())});
+
+        let paper = document.querySelector('#paper');
+        paper.addEventListener('click', function() { playGame('PAPER', getComputerChoice())});
+        
+        let scissors = document.querySelector('#scissors');
+        scissors.addEventListener('click', function() { playGame('SCISSORS', getComputerChoice())});
+
+        let reset = document.querySelector('#reset')
+        reset.addEventListener('click', function () {resetGame()});
+
+    </script>
+</body>
+</html>
